@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import Person from './Person/Person'
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-     <h1>hello i am a react app</h1>
+        <div className="App">
+        <h1>hello i am a react app</h1>
+         <p>this is rly working</p>
+            <Person/>
+        </div>
     );
+    //   return React.createElement('div',{className: 'App'}, React.createElement('h1',null,'hi i am react app'))
   }
 }
 
