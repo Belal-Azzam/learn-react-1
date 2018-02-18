@@ -6,29 +6,31 @@ class App extends Component {
 
     state = {
         persons: [
-            {name: 'max', age:28},
-            {name: 'belal', age:22},
-            {name: 'mezo', age:24},
+            { id: '1', name: 'max', age:28},
+            { id: '2', name: 'belal', age:22},
+            { id: '3', name: 'mezo', age:24},
         ],
         showPersons: false
     }
 
-     switchNameHandler = (newName) => {
-        // DONT DO THIS this.state.persons[0].name = 'bebo';
-        this.setState({persons: [
-            {name: 'maximilian', age:28},
-            {name: newName, age:22},
-            {name: 'mezo', age:24},
-        ]})
+    deletePersonHandler(personIndex)
+    {
+        const persons = this.state.persons.slice();
+        persons.splice(personIndex,1);
+        this.setState({persons: persons});
     }
 
-    nameChangedHandler = (event) =>
+    nameChangedHandler = (event, id) =>
     {
-        this.setState({persons: [
-            {name: 'max', age:28},
-            {name: event.target.value, age:22},
-            {name: 'mezo', age:24},
-        ]})
+        const personIndex = this.state.persons.findIndex( p => {
+            return p.id === id ;
+        });
+        const person = {...this.state.persons[personIndex]}
+        person.name = event.target.value ;
+        const persons = [...this.state.persons];
+        persons[personIndex] = person ;
+        this.setState({persons: persons});
+
     }
 
     togglePersonHandler = () => {
@@ -50,10 +52,13 @@ class App extends Component {
         if(this.state.showPersons){
             persons = (
             <div>
-                {this.state.persons.map(person => {
+                {this.state.persons.map( (person, index) => {
                   return <Person
+                      key={person.id}
+                      click={ () => this.deletePersonHandler(index)}
                       name={person.name}
                       age={person.age}
+                      changed={(event) => this.nameChangedHandler(event,person.id)}
                   />
                 })}
 
